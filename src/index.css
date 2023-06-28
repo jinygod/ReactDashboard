@@ -19,7 +19,6 @@ code {
 .container {
   display: flex;
   flex-direction: column;
-  justify-content: ;
   height: 100vh; /* 컨테이너 전체 높이 설정 */
   width: 100%;
 }
