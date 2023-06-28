@@ -1,57 +1,82 @@
-import React, { useState } from 'react';
-import './RowSecond.css'; // RowSecond 컴포넌트의 스타일을 정의하는 CSS 파일을 import 합니다.
+import React, { useState, useEffect } from 'react';
 
-function RowSecond() {
-  // 게시글 목록을 저장할 상태(State)
-  const [posts, setPosts] = useState([]);
 
-  // 새로운 게시글을 작성하는 함수
-  const createPost = (title, content) => {
-    const newPost = {
-      id: Date.now(), // 고유한 ID 생성 (임시로 현재 시간을 사용)
-      title,
-      content,
+function Board() {
+  const [posts, setPosts] = useState([]); // 게시글 목록을 저장할 상태
+
+  useEffect(() => {
+    // 게시글 목록을 가져오는 비동기 함수
+    const fetchPosts = async () => {
+      try {
+        // API 호출 및 게시글 목록을 가져오는 로직
+        const response = await fetch('API_URL/posts'); // API_URL은 백엔드 API 엔드포인트의 주소로 대체되어야 합니다.
+        const data = await response.json();
+        setPosts(data); // 가져온 게시글 목록을 상태에 저장
+      } catch (error) {
+        console.log(error);
+      }
     };
-    setPosts([...posts, newPost]); // 새로운 게시글을 목록에 추가
-  };
 
-  // 게시글 삭제 함수
-  const deletePost = (postId) => {
-    const updatedPosts = posts.filter((post) => post.id !== postId); // 선택한 게시글을 제외한 게시글 목록을 새로 생성
-    setPosts(updatedPosts); // 업데이트된 게시글 목록으로 상태 업데이트
-  };
+    fetchPosts(); // 게시글 목록을 가져오는 함수 호출
+  }, []);
 
   return (
-    <div className="row-second">
+    <div className="board">
       <h2>Mini Board</h2>
-      
-      {/* 게시글 목록 */}
-      <ul>
-        {posts.map((post) => (
-          <li key={post.id}>
-            <h3>{post.title}</h3>
-            <p>{post.content}</p>
-            <button onClick={() => deletePost(post.id)}>Delete</button>
-          </li>
-        ))}
-      </ul>
-
-      {/* 새로운 게시글 작성 폼 */}
-      <form
-        onSubmit={(e) => {
-          e.preventDefault();
-          const title = e.target.title.value;
-          const content = e.target.content.value;
-          createPost(title, content);
-          e.target.reset();
-        }}
-      >
-        <input type="text" name="title" placeholder="Title" required />
-        <textarea name="content" placeholder="Content" required />
-        <button type="submit">Create Post</button>
-      </form>
+      <table className = 'table table-hover'>
+        <thead>
+            <tr>
+                <th>번호</th>
+                <th>제목</th>
+                <th>작성자</th>
+                <th>날짜</th>
+                <th>조회수</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>100</td>
+                <td>게시판을 만들자</td>
+                <td>전성진</td>
+                <td>2023.06.28</td>
+                <td>2</td>
+            </tr>
+            <tr>
+                <td>100</td>
+                <td>게시판을 만들자</td>
+                <td>전성진</td>
+                <td>2023.06.28</td>
+                <td>2</td>
+            </tr>
+            <tr>
+                <td>100</td>
+                <td>게시판을 만들자</td>
+                <td>전성진</td>
+                <td>2023.06.28</td>
+                <td>2</td>
+            </tr>
+            <tr>
+                <td>100</td>
+                <td>게시판을 만들자</td>
+                <td>전성진</td>
+                <td>2023.06.28</td>
+                <td>2</td>
+            </tr>
+        </tbody>
+        </table>
+        <hr/>
+        <a class="btn btn-primary float-end">글쓰기</a>
+        <div className ='d-flex justify-content-center'>
+             <ul className = 'pagination'>
+                <li className='page-item'><a className='page-link' href="#">1</a></li>
+                <li className='page-item'><a className='page-link' href="#">2</a></li>
+                <li className='page-item'><a className='page-link' href="#">3</a></li>
+                <li className='page-item'><a className='page-link' href="#">4</a></li>
+                <li className='page-item'><a className='page-link' href="#">5</a></li>
+            </ul>
+        </div>
     </div>
   );
 }
 
-export default RowSecond;
+export default Board;

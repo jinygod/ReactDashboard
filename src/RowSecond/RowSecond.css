@@ -1,0 +1,7 @@
+.text-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* 또는 원하는 높이 설정 */
+  }
+  
