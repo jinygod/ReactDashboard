@@ -1,3 +1,7 @@
+html{
+  background: gray;
+}
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -10,4 +14,35 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: ;
+  height: 100vh; /* 컨테이너 전체 높이 설정 */
+  width: 100%;
+}
+
+.head-title{
+  height:100px;
+}
+
+.row-first {
+  height: 300px;
+  width: 100%;
+  background-color: yellowgreen;
+  margin-bottom: 10px;
+}
+
+.row-second {
+  height: 500px; /* 각 row의 높이 설정 */
+  background-color: lime;
+  margin-bottom: 10px; /* 각 row 사이의 간격 설정 */
+}
+
+.row-third {
+  height: 450px; /* 각 row의 높이 설정 */
+  background-color: green;
+  margin-bottom: 10px; /* 각 row 사이의 간격 설정 */
 }
