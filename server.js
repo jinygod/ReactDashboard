@@ -6,7 +6,7 @@ const { Pool } = require('pg');
 const pool = new Pool({
   user: 'postgres', // 데이터베이스 사용자 이름
   host: 'localhost', // 데이터베이스 호스트
-  database: 'react', // 데이터베이스 이름
+  database: 'HF', // 데이터베이스 이름
   password: '1234', // 데이터베이스 비밀번호
   port: 5432, // 데이터베이스 포트 (일반적으로는 5432입니다)
 });
@@ -21,6 +21,7 @@ const fetchPostsFromDB = async () => {
     const query = 'SELECT * FROM posts'; // posts 테이블에서 모든 데이터를 조회하는 SQL 쿼리
     const result = await pool.query(query);
     posts = result.rows; // 조회된 결과를 posts 배열에 저장
+    console.log('Fetched posts from the database:', posts);
   } catch (error) {
     console.log(error);
   }
@@ -43,11 +44,30 @@ app.post('/posts', async (req, res) => {
 });
 
 app.get('/posts', (req, res) => {
-  res.json(posts);
+  
+  res.json([{
+    'name':'aaa'
+  },
+{
+  'name':'bbb'
+}])
 });
 
-// 서버 실행 시 PostgreSQL에서 게시글 목록을 가져옵니다.
-app.listen(port, async () => {
-  console.log(`Server running on port ${port}`);
-  await fetchPostsFromDB();
+// PostgreSQL 연결 확인
+pool.connect((err, client, done) => {
+  if (err) {
+    console.error('Failed to connect to PostgreSQL:', err);
+  } else {
+    console.log('Connected to PostgreSQL database');
+    fetchPostsFromDB()
+      .then(() => {
+        app.listen(port, () => {
+          console.log(`Server running on port ${port}`);
+        });
+      })
+      .catch((error) => {
+        console.error('Error fetching posts from the database:', error);
+        done(); // 연결 해제
+      });
+  }
 });

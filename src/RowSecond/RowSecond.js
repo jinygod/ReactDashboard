@@ -6,10 +6,12 @@ function Board() {
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const response = await fetch('localhost/posts');
+        const response = await fetch('/posts');
         const data = await response.json();
+        console.log("bbbbbb");
         setPosts(data);
       } catch (error) {
+        console.log("aaaaaaaaa");
         console.log(error);
       }
     };
