@@ -1,7 +1,3 @@
-html{
-  background: gray;
-}
-
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -30,18 +26,21 @@ code {
 .row-first {
   height: 300px;
   width: 100%;
-  background-color: yellowgreen;
+  background-color: whitesmoke;
   margin-bottom: 10px;
+  border: 1px solid black;
 }
 
 .row-second {
   height: 500px; /* 각 row의 높이 설정 */
-  background-color: lime;
+  background-color: whitesmoke;
   margin-bottom: 10px; /* 각 row 사이의 간격 설정 */
+  border: 1px solid black;
 }
 
 .row-third {
   height: 450px; /* 각 row의 높이 설정 */
-  background-color: green;
+  background-color: whitesmoke;
   margin-bottom: 10px; /* 각 row 사이의 간격 설정 */
+  border: 1px solid black;
 }

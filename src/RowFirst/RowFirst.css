@@ -51,7 +51,6 @@ h2 {
     justify-content: center;
     margin:0;
     height:160px;
-    width:220px;
   }
 
   .list-item:not(:first-child)::after {
