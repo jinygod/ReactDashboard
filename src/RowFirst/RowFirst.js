@@ -5,7 +5,7 @@ import wonImage from './images/south-korean-won.png';
 function RowFirst() {
   return (
     <div className="row-first">
-    <h2>Sumamry</h2>
+    <h2>OPEN API Call</h2>
       <ul className = 'list-container'>
         <li className ='list-item'>
             <div className = 'image'>

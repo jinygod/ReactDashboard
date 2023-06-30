@@ -1,21 +1,32 @@
 import React, { useState, useEffect } from 'react';
+import Modal from './Modal'; // Modal 컴포넌트 import
 
 function Board() {
   const [posts, setPosts] = useState([]);
+  const [selectedPost, setSelectedPost] = useState(null);
+  const [isOpen, setIsOpen] = useState(false);
+
+  const fetchPosts = async () => {
+    try {
+      const response = await fetch('http://localhost:3001/posts');
+      const data = await response.json();
+      setPosts(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handlePostClick = (post) => {
+    setSelectedPost(post);
+    setIsOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setSelectedPost(null);
+    setIsOpen(false);
+  }
 
   useEffect(() => {
-    const fetchPosts = async () => {
-      try {
-        const response = await fetch('http://localhost:3001/posts');
-        const data = await response.json();
-        console.log("bbbbbb");
-        setPosts(data);
-      } catch (error) {
-        console.log("aaaaaaaaa");
-        console.log(error);
-      }
-    };
-
     fetchPosts();
   }, []);
 
@@ -34,8 +45,8 @@ function Board() {
         </thead>
         <tbody>
           {posts.map((post, index) => (
-            <tr key={index}>
-              <td>{post.id}</td>
+            <tr key={index} onClick={() => handlePostClick(post)}>
+              <td onClick={() => handlePostClick(post)}>{post.id}</td>
               <td>{post.title}</td>
               <td>{post.author}</td>
               <td>{post.date}</td>
@@ -75,6 +86,9 @@ function Board() {
           </li>
         </ul>
       </div>
+      {selectedPost && (
+        <Modal isOpen={isOpen} selectedPost={selectedPost} handleCloseModal={handleCloseModal} />
+      )}
     </div>
   );
 }
