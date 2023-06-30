@@ -6,7 +6,7 @@ function Board() {
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const response = await fetch('/posts');
+        const response = await fetch('http://localhost:3001/posts');
         const data = await response.json();
         console.log("bbbbbb");
         setPosts(data);

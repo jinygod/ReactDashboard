@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 const port = 3001;
 const { Pool } = require('pg');
+const cors = require('cors');
 
 const pool = new Pool({
   user: 'postgres', // 데이터베이스 사용자 이름
@@ -12,6 +13,7 @@ const pool = new Pool({
 });
 
 app.use(express.json()); // JSON 데이터 파싱을 위한 미들웨어 설정
+app.use(cors()); // CORS 설정
 
 let posts = [];
 
@@ -43,15 +45,19 @@ app.post('/posts', async (req, res) => {
   }
 });
 
-app.get('/posts', (req, res) => {
-  
-  res.json([{
-    'name':'aaa'
-  },
-{
-  'name':'bbb'
-}])
+app.get('/posts', async (req, res) => {
+  try {
+    const query = 'SELECT * FROM posts'; // posts 테이블에서 모든 데이터를 조회하는 SQL 쿼리
+    const result = await pool.query(query);
+    const posts = result.rows; // 조회된 결과를 변수에 저장
+
+    res.json(posts); // 조회된 게시글을 클라이언트에게 JSON 형식으로 응답
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: 'An error occurred while retrieving posts' });
+  }
 });
+
 
 // PostgreSQL 연결 확인
 pool.connect((err, client, done) => {
