@@ -1,4 +1,7 @@
 import React, { useEffect, useRef } from 'react';
+import * as am5 from "@amcharts/amcharts5";
+import * as am5xy from "@amcharts/amcharts5/xy";
+import am5themes_Animated from "@amcharts/amcharts5/themes/Animated";
 
 const MyChart = () => {
   const chartDiv = useRef(null);
@@ -246,8 +249,8 @@ const MyChart = () => {
     drawChart();
 
     return () => {
-      if (chart) {
-        chart.dispose();
+      if (chartRef.current) {
+        chartRef.current.dispose();
       }
     };
   }, []);
