@@ -5,6 +5,7 @@ function RowThird() {
   return (
     <div className="row-third">
     <h2>Charts</h2>
+    
     </div>
 
   );
