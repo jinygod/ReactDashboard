@@ -6,6 +6,12 @@ import RowFirst from './RowFirst/RowFirst';
 import RowSecond from './RowSecond/RowSecond';
 import RowThird from './RowThird/RowThird';
 import reportWebVitals from './reportWebVitals'
+import {
+  Chart, LineController, LineElement, PointElement, CategoryScale, LinearScale
+} from 'chart.js';
+
+Chart.register(LineController, LineElement, PointElement, CategoryScale, LinearScale);
+
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render( 

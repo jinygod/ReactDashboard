@@ -39,7 +39,7 @@ code {
 }
 
 .row-third {
-  height: 450px; /* 각 row의 높이 설정 */
+  height: 100%; /* 각 row의 높이 설정 */
   background-color: whitesmoke;
   margin-bottom: 10px; /* 각 row 사이의 간격 설정 */
   border: 1px solid black;
