@@ -20,7 +20,7 @@ Javascript, React, Express, Bootstrap 학습 및 적용
 
 - **Front-end:** React, JavaScript
 - **Back-end:** Express
-- **Database:** 여기에 사용된 데이터베이스를 적어주세요.
+- **Database:** PostgreSQL
 - **Other Libraries & Tools:** Chart.js, Open API, Bootstrap
 
 ## 설치 방법
