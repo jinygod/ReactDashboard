@@ -1,6 +1,13 @@
 import React from 'react';
 
 function Modal({ isOpen, selectedPost, handleCloseModal }) {
+
+  const formatDate = (dateString) => {
+    const options = { year: 'numeric', month: 'long', day: 'numeric' };
+    const date = new Date(dateString);
+    return date.toLocaleDateString(undefined, options);
+  };
+
   return (
     <div className={`modal fade ${isOpen ? 'show' : ''}`} style={{ display: isOpen ? 'block' : 'none' }}>
       <div className="modal-dialog">
@@ -11,7 +18,7 @@ function Modal({ isOpen, selectedPost, handleCloseModal }) {
           </div>
           <div className="modal-body">
             <p>작성자: {selectedPost.author}</p>
-            <p>날짜: {selectedPost.date}</p>
+            <p>날짜: {formatDate(selectedPost.date)}</p>
             <p>조회수: {selectedPost.views}</p>
           </div>
           <div className="modal-footer">
