@@ -119,25 +119,25 @@ function Board() {
       <hr />
       <button className="btn btn-primary float-end" onClick={handleOpenModal}>글쓰기</button>
       <div className="d-flex justify-content-center">
-        <ul className="pagination">
-          <li className="page-item">
-            <a className="page-link" onClick={() => shiftPageRange('prev')} disabled={pageRange.start === 1}>
-              이전
-            </a>
-          </li>
-          {Array.from({ length: 10 }, (_, i) => pageRange.start + i).map(page => page <= totalPages && (
-            <li className="page-item" key={page}>
-              <a className="page-link" onClick={() => paginate(page)}>
-                {page}
+          <ul className="pagination">
+            <li className="page-item">
+              <a className="page-link" onClick={() => pageRange.start > 1 && shiftPageRange('prev')} style={{ cursor: 'pointer' }}>
+                이전
               </a>
             </li>
-          ))}
-          <li className="page-item">
-            <a className="page-link" onClick={() => shiftPageRange('next')} disabled={pageRange.end >= totalPages}>
-              다음
-            </a>
-          </li>
-        </ul>
+            {Array.from({ length: 10 }, (_, i) => pageRange.start + i).map(page => page <= totalPages && (
+              <li className="page-item" key={page}>
+                <a className="page-link" onClick={() => paginate(page)} style={{ cursor: 'pointer' }}>
+                  {page}
+                </a>
+              </li>
+            ))}
+            <li className="page-item">
+              <a className="page-link" onClick={() => pageRange.end < totalPages && shiftPageRange('next')} style={{ cursor: 'pointer' }}>
+                다음
+              </a>
+            </li>
+          </ul>
       </div>
       {selectedPost && (
         <Modal isOpen={isOpen} selectedPost={selectedPost} handleCloseModal={handleCloseModal} />
