@@ -4,6 +4,8 @@ import CreateModal from './createmodal'; // CreateModal 컴포넌트 import
 
 function Board() {
   const [posts, setPosts] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [postsPerPage] = useState(7); // 페이지당 포스트 수 설정
   const [selectedPost, setSelectedPost] = useState(null);
   const [selectCreate, setSelectCreate] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
@@ -30,6 +32,7 @@ function Board() {
 
   const handleCloseModal = () => {
     setSelectedPost(null);
+    setSelectCreate(false);
     setIsOpen(false);
   }
 
@@ -38,6 +41,17 @@ function Board() {
     const date = new Date(dateString);
     return date.toLocaleDateString(undefined, options);
   };
+
+  // 페이지 번호를 변경하는 함수
+  const paginate = pageNumber => setCurrentPage(pageNumber);
+  // Get current posts
+  const indexOfLastPost = currentPage * postsPerPage;
+  const indexOfFirstPost = indexOfLastPost - postsPerPage;
+  const currentPosts = posts.slice(indexOfFirstPost, indexOfLastPost);
+
+  // Get total pages
+  const totalPages = Math.ceil(posts.length / postsPerPage);
+  
 
   const handleSubmit = async (title, author) => {
     // 포스트 작성 및 저장 로직 추가
@@ -80,7 +94,7 @@ function Board() {
           </tr>
         </thead>
         <tbody>
-        {posts.map((post, index) => (
+        {currentPosts.map((post, index) => (
           <tr key={index} onClick={() => handlePostClick(post)}>
             <td>{post.id}</td>
             <td>{post.title}</td>
@@ -89,43 +103,25 @@ function Board() {
             <td>{post.views}</td>
           </tr>
         ))}
-        </tbody>
+      </tbody>
       </table>
       <hr />
       <button className="btn btn-primary float-end" onClick={handleOpenModal}>글쓰기</button>
       <div className="d-flex justify-content-center">
-        <ul className="pagination">
-          <li className="page-item">
-            <a className="page-link" href="#">
-              1
-            </a>
-          </li>
-          <li className="page-item">
-            <a className="page-link" href="#">
-              2
-            </a>
-          </li>
-          <li className="page-item">
-            <a className="page-link" href="#">
-              3
-            </a>
-          </li>
-          <li className="page-item">
-            <a className="page-link" href="#">
-              4
-            </a>
-          </li>
-          <li className="page-item">
-            <a className="page-link" href="#">
-              5
-            </a>
-          </li>
+      <ul className="pagination">
+          {Array.from({ length: totalPages }, (_, i) => i + 1).map(page => (
+            <li className="page-item" key={page}>
+              <a className="page-link" onClick={() => paginate(page)}>
+                {page}
+              </a>
+            </li>
+          ))}
         </ul>
       </div>
       {selectedPost && (
         <Modal isOpen={isOpen} selectedPost={selectedPost} handleCloseModal={handleCloseModal} />
       )}
-      {isOpen && selectCreate && <CreateModal isOpen={isOpen} handleSubmit={handleSubmit} handleCloseModal={handleCloseModal} fetchPosts={fetchPosts} />}
+      {isOpen && selectCreate && <CreateModal isOpen={isOpen} handleCloseModal={handleCloseModal} fetchPosts={fetchPosts} />}
     </div>
   );
 }
