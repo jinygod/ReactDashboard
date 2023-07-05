@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Modal from './Modal'; // Modal 컴포넌트 import
+import CreateModal from './createmodal'; // CreateModal 컴포넌트 import
 
 function Board() {
   const [posts, setPosts] = useState([]);
@@ -14,6 +15,10 @@ function Board() {
     } catch (error) {
       console.log(error);
     }
+  };
+
+  const handleOpenModal = () => {
+    setIsOpen(true);
   };
 
   const handlePostClick = (post) => {
@@ -56,7 +61,7 @@ function Board() {
         </tbody>
       </table>
       <hr />
-      <a className="btn btn-primary float-end">글쓰기</a>
+      <button className="btn btn-primary float-end" onClick={handleOpenModal}>글쓰기</button>
       <div className="d-flex justify-content-center">
         <ul className="pagination">
           <li className="page-item">
@@ -89,6 +94,7 @@ function Board() {
       {selectedPost && (
         <Modal isOpen={isOpen} selectedPost={selectedPost} handleCloseModal={handleCloseModal} />
       )}
+      {isOpen && <CreateModal isOpen={isOpen} handleCloseModal={handleCloseModal} />}
     </div>
   );
 }
