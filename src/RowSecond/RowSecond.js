@@ -6,6 +6,7 @@ function Board() {
   const [posts, setPosts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [postsPerPage] = useState(7); // 페이지당 포스트 수 설정
+  const [pageRange, setPageRange] = useState({start: 1, end: 10}); // 페이지 범위 상태 관리
   const [selectedPost, setSelectedPost] = useState(null);
   const [selectCreate, setSelectCreate] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
@@ -44,10 +45,20 @@ function Board() {
 
   // 페이지 번호를 변경하는 함수
   const paginate = pageNumber => setCurrentPage(pageNumber);
+
   // Get current posts
   const indexOfLastPost = currentPage * postsPerPage;
   const indexOfFirstPost = indexOfLastPost - postsPerPage;
   const currentPosts = posts.slice(indexOfFirstPost, indexOfLastPost);
+
+    // 페이지 범위를 이동하는 함수
+    const shiftPageRange = (direction) => {
+      if (direction === 'next') {
+        setPageRange(prevRange => ({start: prevRange.end + 1, end: prevRange.end + 10}));
+      } else if (direction === 'prev') {
+        setPageRange(prevRange => ({start: prevRange.start - 10, end: prevRange.start - 1}));
+      }
+    }  
 
   // Get total pages
   const totalPages = Math.ceil(posts.length / postsPerPage);
@@ -108,14 +119,24 @@ function Board() {
       <hr />
       <button className="btn btn-primary float-end" onClick={handleOpenModal}>글쓰기</button>
       <div className="d-flex justify-content-center">
-      <ul className="pagination">
-          {Array.from({ length: totalPages }, (_, i) => i + 1).map(page => (
+        <ul className="pagination">
+          <li className="page-item">
+            <a className="page-link" onClick={() => shiftPageRange('prev')} disabled={pageRange.start === 1}>
+              이전
+            </a>
+          </li>
+          {Array.from({ length: 10 }, (_, i) => pageRange.start + i).map(page => page <= totalPages && (
             <li className="page-item" key={page}>
               <a className="page-link" onClick={() => paginate(page)}>
                 {page}
               </a>
             </li>
           ))}
+          <li className="page-item">
+            <a className="page-link" onClick={() => shiftPageRange('next')} disabled={pageRange.end >= totalPages}>
+              다음
+            </a>
+          </li>
         </ul>
       </div>
       {selectedPost && (
