@@ -10,7 +10,7 @@ function Modal({ isOpen, selectedPost, handleCloseModal }) {
 
   return (
     <div className={`modal fade ${isOpen ? 'show' : ''}`} style={{ display: isOpen ? 'block' : 'none' }}>
-      <div className="modal-dialog">
+      <div className="modal-dialog modal-dialog-centered">
         <div className="modal-content">
           <div className="modal-header">
             <h5 className="modal-title">{selectedPost.title}</h5>
