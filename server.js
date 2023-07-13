@@ -24,6 +24,9 @@ const fetchPostsFromDB = async () => {
     const result = await pool.query(query);
     posts = result.rows; // 조회된 결과를 posts 배열에 저장
     console.log('Fetched posts from the database:', posts);
+
+    // 데이터베이스에서 가져온 게시글을 번호에 따라 정렬
+    posts.sort((a, b) => a.id - b.id);
   } catch (error) {
     console.log(error);
   }

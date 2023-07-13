@@ -1,12 +1,17 @@
 import React, { useState } from 'react';
-import './createmodal.css'; // createmodal css import
+import './createmodal.css';
 
 function CreateModal({ isOpen, handleCloseModal, fetchPosts }) {
   const [title, setTitle] = useState('');
+  const [context, setContext] = useState('');
   const [author, setAuthor] = useState('');
 
   const handleTitleChange = (e) => {
     setTitle(e.target.value);
+  };
+
+  const handleContentChange = (e) => {
+    setContext(e.target.value);
   };
 
   const handleAuthorChange = (e) => {
@@ -16,22 +21,19 @@ function CreateModal({ isOpen, handleCloseModal, fetchPosts }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // 현재 날짜 생성
     const date = new Date().toISOString();
-
-    // 조회수 초기값 설정
     const views = 0;
 
-    // 새로운 포스트 데이터 생성
     const newPost = {
       title,
+      context,
       author,
       date,
       views
     };
 
     try {
-      const response = await fetch('http://localhost:3001/posts', {
+      const response = await fetch('http://localhost:3001/posts?_sort=id&_order=desc', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -42,8 +44,8 @@ function CreateModal({ isOpen, handleCloseModal, fetchPosts }) {
       if (response.ok) {
         const data = await response.json();
         console.log('새로운 포스트가 추가되었습니다:', data);
-        fetchPosts(); // 글 작성 후 목록 다시 가져오기
-        handleCloseModal(); // 모달 닫기
+        fetchPosts();
+        handleCloseModal();
       } else {
         console.log('새로운 포스트 추가에 실패했습니다.');
       }
@@ -51,7 +53,6 @@ function CreateModal({ isOpen, handleCloseModal, fetchPosts }) {
       console.log('에러:', error);
     }
 
-    // 모달 닫기
     handleCloseModal();
   };
 
@@ -74,6 +75,16 @@ function CreateModal({ isOpen, handleCloseModal, fetchPosts }) {
               />
             </div>
             <div>
+              <label htmlFor="content">내용</label>
+              <textarea
+                id="content"
+                value={context}
+                onChange={handleContentChange}
+                placeholder="내용을 입력하세요"
+                required
+              />
+            </div>
+            <div>
               <label htmlFor="author">글쓴이</label>
               <input
                 type="text"
@@ -84,7 +95,7 @@ function CreateModal({ isOpen, handleCloseModal, fetchPosts }) {
                 required
               />
             </div>
-            <button type="submit" className = "float-end">작성하기</button>
+            <button type="submit" className="float-end">작성하기</button>
           </form>
         </div>
       </div>

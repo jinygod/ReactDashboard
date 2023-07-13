@@ -11,15 +11,18 @@ function Board() {
   const [selectCreate, setSelectCreate] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
 
-  const fetchPosts = async () => {
-    try {
-      const response = await fetch('http://localhost:3001/posts');
-      const data = await response.json();
-      setPosts(data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+const fetchPosts = async () => {
+  try {
+    const response = await fetch('http://localhost:3001/posts?_sort=id&_order=desc'); // 번호순으로 내림차순 정렬
+    const data = await response.json();
+    data.sort((a,b) => b.id - a.id);
+    console.log(data); // 데이터 콘솔에 출력
+    setPosts(data);
+  } catch (error) {
+    console.log(error); // 에러 콘솔에 출력
+  }
+};
+
 
   const handleOpenModal = () => {
     setSelectCreate(true);
@@ -67,17 +70,17 @@ function Board() {
   const handleSubmit = async (title, author) => {
     // 포스트 작성 및 저장 로직 추가
     try {
-      const response = await fetch('http://localhost:3001/posts', {
+      const response = await fetch('http://localhost:3001/posts?_sort=id&_order=desc', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({ title, author })
       });
-
+  
       if (response.ok) {
         console.log('글이 성공적으로 작성되었습니다.');
-        fetchPosts(); // 글 작성 후 목록 다시 가져오기
+        fetchPosts(); // 글 작성 후 목록 다시 가져오기 (번호순으로 정렬되어 새 글이 맨 위로 올라옴)
         handleCloseModal(); // 모달 닫기
       } else {
         console.log('글 작성에 실패했습니다.');
@@ -90,6 +93,12 @@ function Board() {
   useEffect(() => {
     fetchPosts();
   }, []);
+
+  useEffect(() => {
+    if (currentPage === 1) {
+      fetchPosts(); // 첫 페이지일 때도 번호순으로 정렬하여 게시물 가져오기
+    }
+  }, [currentPage]); // currentPage 상태가 변경될 때 호출하여 첫 페이지인 경우 게시물 가져오기
 
   return (
     <div className="board">

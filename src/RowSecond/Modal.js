@@ -19,6 +19,7 @@ function Modal({ isOpen, selectedPost, handleCloseModal }) {
           <div className="modal-body">
             <p>작성자: {selectedPost.author}</p>
             <p>날짜: {formatDate(selectedPost.date)}</p>
+            <p>내용: {selectedPost.context}</p>
             <p>조회수: {selectedPost.views}</p>
           </div>
           <div className="modal-footer">
